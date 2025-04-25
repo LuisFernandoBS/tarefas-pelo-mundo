@@ -34,6 +34,10 @@ const SelectComFiltro: React.FC<SelectComFiltroProps> = ({ opcoes, id, valor, se
   }, []);
 
   useEffect(() => {
+    setValorSelecionado(valor || "");
+  }, [valor]);
+
+  useEffect(() => {
     setValor(valorSelecionado);
   }, [valorSelecionado]);
 

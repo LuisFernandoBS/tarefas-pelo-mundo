@@ -12,7 +12,9 @@ import SelectComFiltro from "./components/SelectComFiltro";
 
 export default function Home() {
   interface Tarefa {
+    bandeira: string;
     pais: string;
+    estado: string;
     descricao: string;
   }
   interface Pais {
@@ -52,6 +54,7 @@ export default function Home() {
 
   useEffect(() => {
     setPaisSelecionadoIngles(paises.find((pais) => pais.nome === paisSelecionado)?.nomeIngles || "");
+    setEstadoSelecionado("");
   }, [paisSelecionado]);
 
 
@@ -60,7 +63,9 @@ export default function Home() {
 
     const novaTarefa: Tarefa = {
       pais: paisSelecionado,
+      estado: estadoSelecionado,
       descricao: descricao,
+      bandeira: listaPaises.find((pais) => pais.nome === paisSelecionado)?.bandeira || "",
     };
 
     setListaTarefas((prev) => [...prev, novaTarefa]);
@@ -130,7 +135,10 @@ export default function Home() {
           {listaTarefas.map((tarefa, index) => (
             <div key={index} className={styles.tarefa}>
               <div className={styles.linha}>
-                <div className={styles['tarefa-pais']}>{tarefa.pais}</div>
+                <img className={styles['tarefa-imagem']} src={tarefa.bandeira} alt="Bandeira" />
+                <div className={styles['tarefa-pais-estado']}>
+                  <strong>{tarefa.pais}</strong> - {tarefa.estado}
+                </div>
               </div>
               <div className={styles.linha}>
                 <div className={styles['tarefa-descricao']}>
