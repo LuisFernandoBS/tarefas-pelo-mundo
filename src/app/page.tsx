@@ -1,6 +1,8 @@
 'use client';
 import styles from "./page.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import usePaises from "./service/usePaises";
+import useEstados from "./service/useEstados";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaCheckSquare } from "react-icons/fa";
 import RenderClient from "./components/RenderClient";
@@ -13,9 +15,45 @@ export default function Home() {
     pais: string;
     descricao: string;
   }
+  interface Pais {
+    nome: string;
+    bandeira: string;
+    nomeIngles: string;
+  }
+  interface Estados {
+    name: string;
+    
+  }
   const [listaTarefas, setListaTarefas] = useState<Tarefa[]>([]);
+  const [listaPaises, setPaises] = useState<Pais[]>([]);
+  const [listaEstados, setEstados] = useState<Estados[]>([]);
   const [paisSelecionado, setPaisSelecionado] = useState<string>("");
+  const [paisSelecionadoIngles, setPaisSelecionadoIngles] = useState<string>("");
+  const [estadoSelecionado, setEstadoSelecionado] = useState<string>("");
   const [descricao, setDescricao] = useState<string>("");
+
+  const paises = usePaises();
+  const estados: Estados[] = useEstados(paisSelecionadoIngles);
+
+  useEffect(() => {
+    const descricao = document.getElementById("#descricao");
+    descricao?.focus();
+  }, []);
+
+  useEffect(() => {
+    setPaises(paises);
+  }, [paises]);
+
+  useEffect(() => {
+    if (estados.length) {
+      setEstados(estados);
+    }
+  }, [estados]);
+
+  useEffect(() => {
+    setPaisSelecionadoIngles(paises.find((pais) => pais.nome === paisSelecionado)?.nomeIngles || "");
+  }, [paisSelecionado]);
+
 
   const adicionarTarefa = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,19 +87,21 @@ export default function Home() {
                 <RenderClient>
                   <SelectComFiltro
                     id="pais"
-                    opcoes={[
-                      'Brasil',
-                      'Argentina',
-                      'Chile',
-                      'Uruguai',
-                      'Paraguai',
-                      'Bolívia',
-                      'Peru',
-                      'Colômbia',
-                      'Venezuela',
-                    ]}
+                    opcoes={listaPaises.map((pais) => pais.nome)}
                     valor={paisSelecionado}
                     setValor={setPaisSelecionado}
+                  />
+                </RenderClient>
+              </div>
+              <div className={styles['form-group']}>
+                <label htmlFor="pais">Estado</label>
+                <RenderClient>
+                  <SelectComFiltro
+                    id="estado"
+                    opcoes={listaEstados.map((estado) => estado.name)}
+                    disabled={!paisSelecionadoIngles}
+                    valor={estadoSelecionado}
+                    setValor={setEstadoSelecionado}
                   />
                 </RenderClient>
               </div>
@@ -98,7 +138,7 @@ export default function Home() {
                 </div>
                 <div className={styles['tarefa-botao']}>
                   <FaTrashCan className={styles['icone-deletar']} />
-                  <FaCheckSquare className={styles['icone-finalizar']} />
+                  <FaCheckSquare className={styles['icone-finalizar']}/>
                 </div>
               </div>
             </div>

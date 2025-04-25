@@ -1,6 +1,8 @@
 :root {
   --background: #EEEEEE;
   --background-header: #D9D9D9;
+  --bordar-campos: #B4EFDB;
+  --bordar-campos-desabilitado: #b9b9b9;
   --foreground: #171717;
 }
 
@@ -8,6 +10,7 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --bordar-campos: rgb(232, 232, 232);
   }
 }
 
@@ -34,6 +37,19 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+textarea:focus-visible, select:focus-visible, input:focus-visible  {
+  border: 2px solid var(--bordar-campos);
+  outline: none;
+}
+
+textarea, select, input {
+  border: 2px solid var(--bordar-campos);
+}
+
+textarea:disabled, select:disabled, input:disabled {
+  border: 2px solid var(--bordar-campos-desabilitado);
 }
 
 .header{

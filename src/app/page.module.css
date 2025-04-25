@@ -9,7 +9,7 @@
   --background-vermelho: #FF7171;
 
   --button-principal: #B1AFAF;
-  --button-principal-hover: #8c8b8b;
+  --button-principal-hover: #B4EFDB;
   --button-secondary-hover: #f2f2f2;
 
   display: flex;
@@ -84,7 +84,7 @@
 
 .corpo-cadastro .form-group textarea{
   border-radius: 15px;
-  border-color: #9b9a9a;
+  padding: 10px;
   background-color: #f2f2f2;
 }
 
